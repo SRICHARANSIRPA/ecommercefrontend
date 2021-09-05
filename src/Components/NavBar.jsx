@@ -4,6 +4,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { useHistory, Link } from "react-router-dom";
 import stateContext from "../context/context";
+
+import { signout } from "../Auth/Auth";
 const NavBar = () => {
   const {
     totalProductsAdded,
@@ -11,6 +13,10 @@ const NavBar = () => {
     SearchFilter,
     Products,
     handleSearchFilter,
+    handleuserName,
+    handleuserId,
+    handleEmail,
+    handlePassword,
   } = useContext(stateContext);
   const history = useHistory();
   //UseEffect
@@ -81,6 +87,25 @@ const NavBar = () => {
           Amazon
         </Link>
         <SearchBar />
+        <button
+          className="btn btn-lg btn-block btn-primary"
+          style={{
+            padding: "0.2rem 0.2rem",
+            position: "fixed",
+            right: "110px",
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            signout();
+            handleuserName(null);
+            handleuserId(null);
+            handleEmail(null);
+            handlePassword(null);
+          }}
+          type="submit"
+        >
+          Logout
+        </button>
         <GetCart />
         <AccountCircleIcon style={{ position: "fixed", right: "20px" }} />
       </nav>

@@ -11,9 +11,10 @@ export default function Home() {
     //inserting Products
     async function fetchData() {
       const data = await getProducts();
-      handleProducts(data);
+      // handleProducts(data);
     }
-    fetchData();
+    // fetchData();
+    handleProducts(DummyProducts);
   }, []);
   var filterfunction = (p) => {
     let title = p.title;
@@ -28,7 +29,7 @@ export default function Home() {
           backgroundColor: "#f0f0f0",
           display: "flex",
           flexWrap: "wrap",
-          justifyContent: "flex-start",
+          justifyContent: "space-evenly",
           overflowY: "hidden",
         }}
       >

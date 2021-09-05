@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { googleSignIn, signout, EmailPasswordLogin } from "../Auth/Auth";
+import { googleSignIn, EmailPasswordLogin } from "../Auth/Auth";
 import stateContext from "../context/context";
 import { useHistory } from "react-router-dom";
 const Login = () => {
@@ -15,56 +15,31 @@ const Login = () => {
   } = useContext(stateContext);
   const history = useHistory();
 
+  var setUserDetails = (user) => {
+    handleuserId(user.uid);
+    handleuserName(user.displayName ?? user.email);
+    history.push("/Home");
+  };
   //Handling Functions
-  var handleEmailAndPasswordSubmit = (e) => {
+  var handleEmailAndPasswordSubmit = async (e) => {
     e.preventDefault();
-    EmailPasswordLogin(Email, Password);
-    // if (
-    //   Email === "" ||
-    //   Password === "" ||
-    //   Email === null ||
-    //   Password === null
-    // ) {
-    //   window.alert("Email and Password Cannot be empty");
-    //   return;
-    // }
-    // console.log(Email, Password);
-    // createUserWithEmailAndPassword(auth, Email, Password)
-    //   .then((userCredential) => {
-    //     const { user } = userCredential;
-    //     // Signed in
-    //     // const user = userCredential.user;
-    //     console.log(userCredential.user);
-    //     handleuserId(user.uid);
-    //     handleuserName(user.displayName ?? user.email);
-    //     history.push("/Home");
-    //   })
-    //   .catch((error) => {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //     console.log(errorCode);
-    //     console.log(errorMessage);
-    //     window.alert("Authentication Failed");
-    //     handleEmail("");
-    //     handlePassword("");
-    //     history.push("/Login");
-    //     // ..
-    //   });
+    if (
+      Email === "" ||
+      Password === "" ||
+      Email === null ||
+      Password === null
+    ) {
+      window.alert("Invalid Credentials");
+      return;
+    }
+    const user = await EmailPasswordLogin(Email, Password);
+    setUserDetails(user);
   };
 
-  var handleGoogleSignIn = (e) => {
+  var handleGoogleSignIn = async (e) => {
     e.preventDefault();
-    googleSignIn();
-    // signOut(auth)
-    //   .then(() => {
-    //     // Sign-out successful.
-    //     console.log("Sign-out Successful");
-    //     history.push("/Login");
-    //   })
-    //   .catch((error) => {
-    //     // An error happened.
-    //     console.log("an Error Occured");
-    //   });
+    const user = await googleSignIn();
+    setUserDetails(user);
   };
 
   //rendering
@@ -122,16 +97,6 @@ const Login = () => {
                       onClick={(e) => handleGoogleSignIn(e)}
                     >
                       <i className="fab fa-google me-2"></i> Sign in with google
-                    </button>
-                    <button
-                      className="btn btn-lg btn-block btn-primary"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        signout();
-                      }}
-                      type="submit"
-                    >
-                      Logout
                     </button>
                   </div>
                 </form>

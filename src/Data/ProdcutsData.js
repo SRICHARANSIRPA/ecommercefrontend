@@ -9,7 +9,13 @@ export const getProducts = async () => {
   //       console.log(err);
   //       return [];
   //     });
-  const result = await fetch("http://localhost:3000/getData");
-  const prodcuts = await result.json();
+  const result = await fetch("http://localhost:3001/api/Products");
+  let prodcuts = await result.json();
+  prodcuts = [...prodcuts].map((p) => {
+    const { _id: Id, ...otherProps } = p;
+    console.log(Id);
+    return { Id, count: 0, ...otherProps };
+  });
+  console.log(prodcuts);
   return prodcuts;
 };

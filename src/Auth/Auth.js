@@ -1,7 +1,5 @@
 import * as firebase from "firebase/app";
 import config from "./AuthConfig";
-import StateContext from "../context/context";
-import { useContext } from "react";
 import {
   getAuth,
   signInWithPopup,
@@ -15,19 +13,30 @@ import {
 firebase.initializeApp(config);
 
 //configuration
-const auth = getAuth();
+export const auth = getAuth();
 const provider = new GoogleAuthProvider();
 
 //Methods
 export const googleSignIn = async () => {
   const result = await signInWithPopup(auth, provider);
   if (result) {
+    console.log("Hello");
     console.log(result);
+    return result.user;
   }
+  // await signInWithPopup(auth, provider)
+  //   .then((result) => )
+  //   .catch((error) => {
+  //     window.alert("Authentication Failed");
+  //     const errorCode = error.code;
+  //     const errorMessage = error.message;
+  //     console.log(errorCode);
+  //     console.log(errorMessage);
+  //   });
 };
 
-export const EmailPasswordLogin = (email, password) => {
-  createUserWithEmailAndPassword(auth, email, password)
+export const EmailPasswordLogin = async (email, password) => {
+  await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
       console.log(user);
@@ -50,12 +59,4 @@ export const signout = () => {
     });
 };
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // const { userName, userId, Gender, UIDNumber } = useContext(StateContext);
-    const uid = user.uid;
-    console.log(uid, "SignIn");
-  } else {
-    console.log("SignOut");
-  }
-});
+export { onAuthStateChanged };
