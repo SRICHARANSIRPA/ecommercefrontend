@@ -42,7 +42,13 @@ function ShoppingCart() {
       handleClose();
       alert("Order Successfull");
       history.push("/Home");
-    }, 5000);
+    }, 3000);
+    handleProducts(
+      [...Products].map((p) => {
+        p.count = 0;
+        return p;
+      })
+    );
   };
   return !showLoader ? (
     <div>
