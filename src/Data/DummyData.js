@@ -53,7 +53,7 @@ const DummyProducts = [
     Description: "Nautica womens Solid Pocket T-Shirt",
     image: "images/woman.jpg",
     price: 90,
-    count: 3,
+    count: 0,
   },
   {
     Id: 8,

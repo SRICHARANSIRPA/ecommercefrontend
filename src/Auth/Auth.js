@@ -36,17 +36,12 @@ export const googleSignIn = async () => {
 };
 
 export const EmailPasswordLogin = async (email, password) => {
-  await createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      console.log(user);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode);
-      console.log(errorMessage);
-    });
+  const result = await createUserWithEmailAndPassword(auth, email, password);
+  if (result) {
+    console.log("Hello");
+    console.log(result);
+    return result.user;
+  }
 };
 
 export const signout = () => {
